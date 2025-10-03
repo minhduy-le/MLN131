@@ -136,7 +136,7 @@ const Index = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <img
-                src="/src/assets/Logo_Trường_Đại_học_FPT.svg.png"
+                src="/assets/Logo_Trường_Đại_học_FPT.svg.png"
                 alt="Logo"
                 className="h-12 w-auto mr-4"
               />
@@ -230,7 +230,7 @@ const Index = () => {
       <div
         className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-80px)] px-6"
         style={{
-          backgroundImage: `url('/src/assets/background.jpg')`,
+          backgroundImage: `url('/assets/background.jpg')`,
           backgroundSize: "cover",
           backgroundPosition: "center top",
           backgroundRepeat: "no-repeat",
@@ -246,7 +246,7 @@ const Index = () => {
                 <div className="relative group">
                   <div className="w-56 h-72 bg-black border-4 border-gray-800 shadow-2xl transform hover:scale-105 transition-transform duration-300 overflow-hidden">
                     <img
-                      src="/src/assets/1977.png"
+                      src="/assets/1977.png"
                       alt="Artwork 1977"
                       className="w-full h-full object-cover"
                     />
@@ -256,7 +256,7 @@ const Index = () => {
                 <div className="relative group mt-20">
                   <div className="w-56 h-72 bg-black border-4 border-gray-800 shadow-2xl transform hover:scale-105 transition-transform duration-300 overflow-hidden">
                     <img
-                      src="/src/assets/1979.png"
+                      src="/assets/1979.png"
                       alt="Artwork 1979"
                       className="w-full h-full object-cover"
                     />
@@ -266,7 +266,7 @@ const Index = () => {
                 <div className="relative group">
                   <div className="w-56 h-72 bg-black border-4 border-gray-800 shadow-2xl transform hover:scale-105 transition-transform duration-300 overflow-hidden">
                     <img
-                      src="/src/assets/1991.png"
+                      src="/assets/1991.png"
                       alt="Artwork 1991"
                       className="w-full h-full object-cover"
                     />
@@ -276,7 +276,7 @@ const Index = () => {
                 <div className="relative group mt-20">
                   <div className="w-56 h-72 bg-black border-4 border-gray-800 shadow-2xl transform hover:scale-105 transition-transform duration-300 overflow-hidden">
                     <img
-                      src="/src/assets/1995.jpg"
+                      src="/assets/1995.jpg"
                       alt="Artwork 1995"
                       className="w-full h-full object-cover"
                     />
@@ -337,7 +337,7 @@ const Index = () => {
             >
               <div className="relative bg-gradient-to-br from-amber-100 to-orange-200 rounded-2xl overflow-hidden shadow-2xl">
                 <img
-                  src="/src/assets/2007.png"
+                  src="/assets/2007.png"
                   alt="Art Studio"
                   className="w-full h-96 object-cover"
                 />
@@ -375,7 +375,7 @@ const Index = () => {
       <div
         className="relative py-20 px-6 overflow-hidden"
         style={{
-          backgroundImage: `url('/src/assets/background_2.jpg')`,
+          backgroundImage: `url('/assets/background_2.jpg')`,
           backgroundSize: "cover",
           backgroundPosition: "center center",
           backgroundRepeat: "no-repeat",
@@ -420,7 +420,7 @@ const Index = () => {
               >
                 <div className="w-64 h-80 bg-black border-4 border-gray-300 shadow-2xl rounded-lg overflow-hidden">
                   <img
-                    src={`/src/assets/${item.image}`}
+                    src={`/assets/${item.image}`}
                     alt={`Lịch sử ${item.year}`}
                     className="w-full h-full object-cover"
                   />
@@ -471,7 +471,7 @@ const Index = () => {
               >
                 <div className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105">
                   <img
-                    src="/src/assets/1977.png"
+                    src="/assets/1977.png"
                     alt="Artwork 1"
                     className="w-full h-[400px] object-cover"
                   />
@@ -496,7 +496,7 @@ const Index = () => {
               >
                 <div className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105">
                   <img
-                    src="/src/assets/1979.png"
+                    src="/assets/1979.png"
                     alt="Artwork 2"
                     className="w-full h-[210px] object-cover"
                   />
@@ -516,7 +516,7 @@ const Index = () => {
               <div className="break-inside-avoid group cursor-pointer">
                 <div className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105">
                   <img
-                    src="/src/assets/anh8.png"
+                    src="/assets/anh8.png"
                     alt="Artwork 3"
                     className="w-full h-auto object-cover"
                   />
@@ -539,7 +539,7 @@ const Index = () => {
               <div className="break-inside-avoid group cursor-pointer">
                 <div className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105">
                   <img
-                    src="/src/assets/anh9.png"
+                    src="/assets/anh9.png"
                     alt="Artwork 4"
                     className="w-full h-auto object-cover"
                   />
@@ -560,7 +560,7 @@ const Index = () => {
               <div className="break-inside-avoid group cursor-pointer">
                 <div className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105">
                   <img
-                    src="/src/assets/anh10.png"
+                    src="/assets/anh10.png"
                     alt="Artwork 5"
                     className="w-full h-[225px] object-cover"
                   />
@@ -581,7 +581,7 @@ const Index = () => {
               <div className="break-inside-avoid group cursor-pointer">
                 <div className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105">
                   <img
-                    src="/src/assets/anh11.png"
+                    src="/assets/anh11.png"
                     alt="Artwork 6"
                     className="w-full h-auto object-cover"
                   />
@@ -602,7 +602,7 @@ const Index = () => {
               <div className="break-inside-avoid group cursor-pointer">
                 <div className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105">
                   <img
-                    src="/src/assets/anh12.png"
+                    src="/assets/anh12.png"
                     alt="Artwork 7"
                     className="w-full h-[420px] object-cover"
                   />
@@ -622,7 +622,7 @@ const Index = () => {
               <div className="break-inside-avoid group cursor-pointer">
                 <div className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105">
                   <img
-                    src="/src/assets/anh13.png"
+                    src="/assets/anh13.png"
                     alt="Artwork 8"
                     className="w-full h-[645px] object-cover"
                   />

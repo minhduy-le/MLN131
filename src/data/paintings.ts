@@ -15,8 +15,8 @@ export interface PaintingItem {
 export const SAMPLE_PAINTINGS: PaintingItem[] = [
   {
     id: "1",
-    src: "/src/assets/phongcanh.jpg",
-    originalSrc: "/src/assets/phongcanh.jpg",
+    src: "/assets/phongcanh.jpg",
+    originalSrc: "/assets/phongcanh.jpg",
     info: {
       title: "Hồ Chiều Tà Yên Bình",
       artist: "Nguyễn Văn A",
@@ -27,8 +27,8 @@ export const SAMPLE_PAINTINGS: PaintingItem[] = [
   },
   {
     id: "2",
-    src: "/src/assets/phongcanh.jpg",
-    originalSrc: "/src/assets/phongcanh.jpg",
+    src: "/assets/phongcanh.jpg",
+    originalSrc: "/assets/phongcanh.jpg",
     info: {
       title: "Cánh Đồng Gió",
       artist: "Trần Thị B",
@@ -39,8 +39,8 @@ export const SAMPLE_PAINTINGS: PaintingItem[] = [
   },
   {
     id: "3",
-    src: "/src/assets/phongcanh.jpg",
-    originalSrc: "/src/assets/phongcanh.jpg",
+    src: "/assets/phongcanh.jpg",
+    originalSrc: "/assets/phongcanh.jpg",
     info: {
       title: "Phố Xưa",
       artist: "Lê Văn C",
@@ -50,5 +50,3 @@ export const SAMPLE_PAINTINGS: PaintingItem[] = [
     },
   },
 ];
-
-

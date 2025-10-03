@@ -9,7 +9,7 @@ const items = Array.from({ length: 8 }).map((_, i) => ({
   title: `Artwork ${i + 1}`,
   artist: `Artist ${String.fromCharCode(65 + i)}`,
   year: 2020 + i,
-  img: "/src/assets/sample-painting.jfif",
+  img: "/assets/sample-painting.jfif",
 }));
 
 const Products = () => {
