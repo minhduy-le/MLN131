@@ -1,0 +1,216 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 0 0% 98%;
+    --foreground: 220 15% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 15% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 15% 15%;
+
+    --primary: 45 95% 55%;
+    --primary-foreground: 220 15% 15%;
+
+    --secondary: 210 20% 96%;
+    --secondary-foreground: 220 15% 15%;
+
+    --muted: 210 20% 94%;
+    --muted-foreground: 220 15% 65%;
+
+    --accent: 45 90% 60%;
+    --accent-foreground: 220 15% 15%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 45 95% 55%;
+
+    --radius: 0.75rem;
+
+    /* Gallery specific colors */
+    --gallery-wall: 0 0% 96%;
+    --gallery-floor: 210 15% 92%;
+    --gallery-ceiling: 0 0% 98%;
+    --frame-gold: 45 85% 50%;
+    --frame-shadow: 220 15% 20%;
+    --info-overlay: 220 15% 15%;
+    --glass-reflection: 0 0% 100%;
+
+    /* Gradients */
+    --gradient-gallery: linear-gradient(
+      135deg,
+      hsl(var(--gallery-ceiling)),
+      hsl(var(--gallery-wall))
+    );
+    --gradient-frame: linear-gradient(
+      145deg,
+      hsl(var(--frame-gold)),
+      hsl(45 75% 40%)
+    );
+    --gradient-info: linear-gradient(
+      135deg,
+      rgba(44, 62, 80, 0.95),
+      rgba(52, 73, 94, 0.9)
+    );
+
+    /* Shadows */
+    --shadow-frame: 0 15px 35px -5px rgba(44, 62, 80, 0.3);
+    --shadow-painting: 0 25px 50px -12px rgba(44, 62, 80, 0.4);
+    --shadow-info: 0 8px 25px -5px rgba(44, 62, 80, 0.3);
+
+    /* Animations */
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* ARTHOZ Theme Colors */
+    --arthoz-bg: 0 0% 6%;
+    --arthoz-bg-secondary: 0 0% 8%;
+    --arthoz-amber: 45 95% 55%;
+    --arthoz-amber-dark: 45 85% 45%;
+    --arthoz-text: 0 0% 100%;
+    --arthoz-text-secondary: 0 0% 70%;
+    --arthoz-border: 0 0% 20%;
+  }
+
+  .dark {
+    --background: 0 0% 6%;
+    --foreground: 0 0% 100%;
+
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 100%;
+
+    --primary: 45 95% 55%;
+    --primary-foreground: 0 0% 6%;
+
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 70%;
+
+    --accent: 45 90% 60%;
+    --accent-foreground: 0 0% 6%;
+
+    --destructive: 0 62.8% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 20%;
+    --input: 0 0% 15%;
+    --ring: 45 95% 55%;
+
+    --gallery-wall: 0 0% 12%;
+    --gallery-floor: 0 0% 8%;
+    --gallery-ceiling: 0 0% 15%;
+    --frame-gold: 45 85% 50%;
+    --frame-shadow: 0 0% 0%;
+    --info-overlay: 0 0% 100%;
+    --glass-reflection: 0 0% 100%;
+    --sidebar-background: 0 0% 8%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 45 95% 55%;
+    --sidebar-primary-foreground: 0 0% 6%;
+    --sidebar-accent: 0 0% 15%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 0 0% 20%;
+    --sidebar-ring: 45 95% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Montserrat", sans-serif;
+  }
+
+  /* ARTHOZ Custom Styles */
+  .arthoz-bg {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--arthoz-bg)),
+      hsl(var(--arthoz-bg-secondary))
+    );
+  }
+
+  .arthoz-text {
+    color: hsl(var(--arthoz-text));
+  }
+
+  .arthoz-text-secondary {
+    color: hsl(var(--arthoz-text-secondary));
+  }
+
+  .arthoz-amber {
+    color: hsl(var(--arthoz-amber));
+  }
+
+  .arthoz-border {
+    border-color: hsl(var(--arthoz-border));
+  }
+
+  .arthoz-glass {
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    border: 1px solid hsl(var(--arthoz-border));
+  }
+
+  .arthoz-frame {
+    background: linear-gradient(
+      145deg,
+      hsl(var(--arthoz-amber)),
+      hsl(var(--arthoz-amber-dark))
+    );
+    box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--arthoz-bg));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--arthoz-amber));
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--arthoz-amber-dark));
+  }
+}
