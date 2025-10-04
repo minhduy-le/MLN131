@@ -100,8 +100,8 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       fontFamily: {
-        sans: ["Montserrat", "sans-serif"],
-        montserrat: ["Montserrat", "sans-serif"],
+        sans: ["Montserrat", "Noto Sans", "system-ui", "-apple-system", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif"],
+        montserrat: ["Montserrat", "Noto Sans", "system-ui", "-apple-system", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif"],
       },
     },
   },

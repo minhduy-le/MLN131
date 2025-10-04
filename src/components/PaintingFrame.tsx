@@ -15,6 +15,7 @@ interface PaintingFrameProps {
   paintingInfo: PaintingInfo;
   onImageChange?: (file: File) => void;
   className?: string;
+  isFlipping?: boolean;
 }
 
 export const PaintingFrame = ({
@@ -22,6 +23,7 @@ export const PaintingFrame = ({
   paintingInfo,
   onImageChange,
   className = "",
+  isFlipping = false,
 }: PaintingFrameProps) => {
   const [showInfo, setShowInfo] = useState(false);
   const [isZoomed, setIsZoomed] = useState(false);
@@ -35,63 +37,78 @@ export const PaintingFrame = ({
 
   return (
     <div className={`relative group ${className}`}>
-      <div className="relative transform transition-all duration-500">
-        <div
-          className="relative p-6 rounded-xl"
-          style={{
-            background: "var(--gradient-frame)",
-          }}
-        >
-          <div className="relative p-2  rounded-lg">
-            <div className="relative bg-white rounded overflow-hidden aspect-[4/3]">
-              <img
-                src={imageSrc}
-                alt={paintingInfo.title}
-                className={`w-full h-full object-cover transition-transform duration-700 
-                  ${isZoomed ? "scale-110" : "scale-100"}`}
-              />
+      {/* Outer shadow layer */}
+      <div className="absolute inset-0 bg-gradient-to-br from-amber-900/20 via-transparent to-amber-800/30 rounded-2xl blur-xl transform rotate-1 scale-105"></div>
 
-              <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <Button
-                  size="sm"
-                  variant="secondary"
-                  onClick={() => setIsZoomed(!isZoomed)}
-                  className="bg-white/90 hover:bg-white text-foreground"
-                >
-                  <ZoomIn className="w-4 h-4" />
-                </Button>
+      {/* Main frame container */}
+      <div className="relative transform transition-all duration-500 ">
+        {/* Decorative corner elements */}
 
-                <Button
-                  size="sm"
-                  variant="secondary"
-                  onClick={() => setShowInfo(!showInfo)}
-                  className="bg-white/90 hover:bg-white text-foreground"
-                >
-                  <Info className="w-4 h-4" />
-                </Button>
-              </div>
+        {/* Main frame with multiple layers */}
+        <div className="relative p-8 rounded-2xl shadow-2xl pb-2 pt-0">
+          {/* Frame border with ornate design */}
+          <div className="relative p-1 rounded-xl overflow-hidden artistic-frame-outer">
+            {/* Inner decorative border */}
+            <div className="relative p-2 rounded-lg artistic-frame-inner">
+              {/* Canvas area */}
+              <div className="relative bg-white rounded-lg overflow-hidden aspect-[4/3] shadow-inner border-2 border-amber-100">
+                {/* Glass reflection effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-transparent pointer-events-none"></div>
 
-              {onImageChange && (
-                <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <label htmlFor="image-upload" className="cursor-pointer">
-                    <Button
-                      size="sm"
-                      variant="secondary"
-                      className="bg-white/90 hover:bg-white text-foreground"
-                    >
-                      <Upload className="w-4 h-4 mr-2" />
-                      Thay ảnh
-                    </Button>
-                    <input
-                      id="image-upload"
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                      className="hidden"
-                    />
-                  </label>
+                <img
+                  src={imageSrc}
+                  alt={paintingInfo.title}
+                  className={`w-full h-full object-cover transition-all duration-700 flip-image
+                    ${isZoomed ? "scale-110" : "scale-100"} filter drop-shadow-lg`}
+                />
+
+                {/* Subtle vignette effect */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent pointer-events-none"></div>
+
+                {/* Control buttons */}
+                <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                  <Button
+                    size="sm"
+                    variant="secondary"
+                    onClick={() => setIsZoomed(!isZoomed)}
+                    className="bg-white/95 hover:bg-white text-foreground shadow-lg backdrop-blur-sm border border-amber-200"
+                  >
+                    <ZoomIn className="w-4 h-4" />
+                  </Button>
+
+                  {/* <Button
+                    size="sm"
+                    variant="secondary"
+                    onClick={() => setShowInfo(!showInfo)}
+                    className="bg-white/95 hover:bg-white text-foreground shadow-lg backdrop-blur-sm border border-amber-200"
+                  >
+                    <Info className="w-4 h-4" />
+                  </Button> */}
                 </div>
-              )}
+
+                {/* Upload button */}
+                {onImageChange && (
+                  <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                    <label htmlFor="image-upload" className="cursor-pointer">
+                      <Button
+                        size="sm"
+                        variant="secondary"
+                        className="bg-white/95 hover:bg-white text-foreground shadow-lg backdrop-blur-sm border border-amber-200"
+                      >
+                        <Upload className="w-4 h-4 mr-2" />
+                        Thay ảnh
+                      </Button>
+                      <input
+                        id="image-upload"
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>

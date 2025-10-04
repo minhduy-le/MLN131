@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { PaintingFrame } from "./PaintingFrame";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -7,13 +7,8 @@ import {
   ChevronRight,
   PanelsTopLeft,
   Eye,
-  Search,
-  ChevronDown,
-  Menu,
-  X,
 } from "lucide-react";
-import { Link } from "react-router-dom";
-import { SAMPLE_PAINTINGS } from "@/data/paintings";
+import { Header } from "./Header";
 
 interface Painting {
   id: string;
@@ -27,222 +22,196 @@ interface Painting {
   };
 }
 
-export const VirtualGallery = () => {
-  const [paintings] = useState<Painting[]>(SAMPLE_PAINTINGS);
+export const VirtualGallery = ({ initialPaintings }: { initialPaintings: Painting[] }) => {
+  const [paintings] = useState<Painting[]>(initialPaintings);
   const [currentPaintingIndex, setCurrentPaintingIndex] = useState(0);
-  const [showStory, setShowStory] = useState(true);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showStory, setShowStory] = useState(false);
+  const [isShowingOriginal, setIsShowingOriginal] = useState(false);
+  const [isFlipping, setIsFlipping] = useState(false);
 
-  const nextPainting = () => {
-    setCurrentPaintingIndex((prev) => (prev + 1) % paintings.length);
-  };
+  // --- Logic chuyển ảnh ---
+  const changePainting = useCallback((newIndex: number) => {
+    if (newIndex === currentPaintingIndex) return;
+    setCurrentPaintingIndex(newIndex);
+    setIsShowingOriginal(false);
+  }, [currentPaintingIndex]);
 
-  const prevPainting = () => {
-    setCurrentPaintingIndex(
-      (prev) => (prev - 1 + paintings.length) % paintings.length
-    );
+  const nextPainting = useCallback(() => {
+    const newIndex = (currentPaintingIndex + 1) % paintings.length;
+    changePainting(newIndex);
+  }, [currentPaintingIndex, paintings.length, changePainting]);
+
+  const prevPainting = useCallback(() => {
+    const newIndex = (currentPaintingIndex - 1 + paintings.length) % paintings.length;
+    changePainting(newIndex);
+  }, [currentPaintingIndex, paintings.length, changePainting]);
+
+  // --- Logic lật ảnh ---
+  const toggleOriginalImage = () => {
+    if (!currentPainting.originalSrc || isFlipping) return;
+
+    setIsFlipping(true);
+    setTimeout(() => {
+      setIsShowingOriginal(!isShowingOriginal);
+      setIsFlipping(false);
+    }, 300);
   };
 
   const currentPainting = paintings[currentPaintingIndex];
+  const hasOriginal = !!currentPainting.originalSrc; 
+  
+  useEffect(() => {
+      if (!hasOriginal && isShowingOriginal) {
+          setIsShowingOriginal(false);
+      }
+  }, [currentPaintingIndex, hasOriginal, isShowingOriginal]);
 
+  const currentImageSrc = isShowingOriginal && hasOriginal
+    ? currentPainting.originalSrc
+    : currentPainting.src;
+
+  // Keyboard navigation (Giữ nguyên)
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        prevPainting();
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        nextPainting();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [nextPainting, prevPainting]);
+
+  // --- Bố cục Fixed ---
   return (
-    <div className="min-h-screen relative overflow-hidden bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900">
-      <div className="absolute inset-0 opacity-20">
-        <div className="w-full h-full bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.1%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]"></div>
+    <div className="h-screen relative overflow-hidden gallery-background flex flex-col">
+      <div className="absolute inset-0 bg-black/40"></div>
+
+      {/* 1. HEADER - Cố định ở trên cùng */}
+      <div className="relative z-30 w-full">
+        <Header />
       </div>
 
-      <nav
-        className="relative z-10 backdrop-blur-sm border-b border-gray-700"
-        style={{ backgroundColor: "#532218" }}
-      >
-        <div className="max-w-7xl mx-auto px-6 py-2">
-          <div className="flex items-center justify-between">
-            <div className="hidden md:flex items-center space-x-8">
-              <Link
-                to="/"
-                className="text-white hover:text-yellow-400 transition-colors flex items-center space-x-1"
-              >
-                <span className="font-montserrat">Trang chủ</span>
-                <ChevronDown className="w-3 h-3" />
-              </Link>
-              <Link
-                to="/members"
-                className="text-white hover:text-yellow-400 transition-colors flex items-center space-x-1"
-              >
-                <span className="font-montserrat">Thành viên</span>
-                <ChevronDown className="w-3 h-3" />
-              </Link>
-              <Link
-                to="/products"
-                className="text-white hover:text-yellow-400 transition-colors flex items-center space-x-1"
-              >
-                <span className="font-montserrat">Sản phẩm</span>
-                <ChevronDown className="w-3 h-3" />
-              </Link>
-              <Link
-                to="/exhibition"
-                className="text-yellow-400 hover:text-yellow-300 transition-colors flex items-center space-x-1"
-              >
-                <span className="font-montserrat">Triển lãm</span>
-                <ChevronDown className="w-3 h-3" />
-              </Link>
+      {/* 2. MAIN CONTENT - Phần cuộn được */}
+      <main className="flex-grow flex flex-col items-center justify-center p-4 md:p-8 relative overflow-y-auto z-10 
+                       pb-[7rem]"> 
+        
+        {/* Vùng chứa toàn bộ các thành phần (Ảnh, Mô tả, Nút) */}
+        <div className="flex flex-col items-center w-full max-w-5xl 2xl:max-w-6xl">
+
+            {/* Vùng ảnh chính */}
+            <div className="relative w-full flex-shrink-0">
+                
+                {/* 💥 THAY ĐỔI: Tăng kích thước nút trái */}
+                <Button
+                    // Thay size="icon" bằng size tùy chỉnh
+                    className="absolute left-0 top-1/2 -translate-y-1/2 z-20 text-white/80 hover:bg-white/30 transition-colors 
+                                p-3 w-12 h-12 md:w-16 md:h-16 rounded-full bg-black/30 md:bg-transparent hover:bg-black/50"
+                    onClick={prevPainting}
+                    aria-label="Previous painting"
+                >
+                    <ChevronLeft className="w-6 h-6 md:w-8 md:h-8" />
+                </Button>
+
+                {/* Khung ảnh - Hiệu ứng trượt/chuyển cảnh */}
+                <div className="w-full h-full">
+                    <PaintingFrame
+                    key={currentPainting.id + currentImageSrc} 
+                    imageSrc={currentImageSrc}
+                    paintingInfo={currentPainting.info}
+                    className={`w-full max-w-[48rem] 2xl:max-w-[56rem] mx-auto transition-all duration-500 ease-in-out ${isFlipping ? 'flipping' : ''}`}
+                    isFlipping={isFlipping}
+                    />
+                </div>
+
+                {/* 💥 THAY ĐỔI: Tăng kích thước nút phải */}
+                <Button
+                    // Thay size="icon" bằng size tùy chỉnh
+                    className="absolute right-0 top-1/2 -translate-y-1/2 z-20 text-white/80 hover:bg-white/30 transition-colors 
+                                p-3 w-12 h-12 md:w-16 md:h-16 rounded-full bg-black/30 md:bg-transparent hover:bg-black/50"
+                    onClick={nextPainting}
+                    aria-label="Next painting"
+                >
+                    <ChevronRight className="w-6 h-6 md:w-8 md:h-8" />
+                </Button>
             </div>
 
-            <div className="flex items-center space-x-4">
-              <div className="text-white hover:text-amber-400 transition-colors cursor-pointer">
-                <Search className="w-5 h-5" />
-              </div>
+            {/* VÙNG MÔ TẢ (STORY) & NÚT */}
+            <div className={`w-full max-w-[48rem] 2xl:max-w-[56rem] mt-4 flex-shrink-0 transition-all duration-300 ease-in-out`}>
+                
+                {/* PHẦN MÔ TẢ */}
+                <div 
+                    className={`transition-all duration-300 ease-in-out overflow-hidden ${showStory ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}
+                    aria-hidden={!showStory}
+                >
+                    <Card className="p-4 bg-black/70 backdrop-blur-sm border-gray-700 text-sm text-gray-300">
+                        <h3 className="text-xl font-bold text-amber-500 mb-1">{currentPainting.info.title}</h3>
+                        <p className="text-sm text-gray-400 mb-3">
+                            {currentPainting.info.artist} - {currentPainting.info.year}
+                        </p>
+                        <p>{currentPainting.info.description}</p>
+                    </Card>
+                </div>
+                
+                {/* HAI NÚT TƯƠNG TÁC - Đặt ngay dưới vùng Mô tả */}
+                <div className="mt-4 mb-8 flex items-center gap-4 justify-center">
+                    
+                    <Button
+                        size="sm"
+                        variant="outline"
+                        className="border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-black transition-all duration-300"
+                        onClick={() => setShowStory(!showStory)}
+                    >
+                        <PanelsTopLeft className="w-4 h-4 mr-2" />
+                        {showStory ? "Ẩn Mô tả" : "Hiện Mô tả"}
+                    </Button>
 
-              <button
-                className="md:hidden text-white hover:text-amber-400 transition-colors"
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              >
-                {isMobileMenuOpen ? (
-                  <X className="w-5 h-5" />
-                ) : (
-                  <Menu className="w-5 h-5" />
-                )}
-              </button>
+                    <Button
+                        size="sm"
+                        variant="outline"
+                        disabled={!hasOriginal} 
+                        className={`border-amber-500 transition-all duration-300 ${!hasOriginal
+                            ? "text-gray-500 border-gray-500 cursor-not-allowed bg-black/50" 
+                            : isShowingOriginal
+                                ? "bg-amber-500 text-black hover:bg-amber-600" 
+                                : "text-amber-500 hover:bg-amber-500 hover:text-black" 
+                            }`}
+                        onClick={toggleOriginalImage}
+                    >
+                        <Eye className="w-4 h-4 mr-2" />
+                        {isShowingOriginal ? "Xem Đã xử lý" : "Xem Bản gốc"}
+                    </Button>
+                </div>
             </div>
-          </div>
-        </div>
 
-        {isMobileMenuOpen && (
-          <div className="md:hidden bg-black/90 backdrop-blur-sm border-t border-gray-700">
-            <div className="px-6 py-4 space-y-4">
-              <Link
-                to="/"
-                className="block text-white hover:text-yellow-400 transition-colors py-2"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                HOME
-              </Link>
-              <Link
-                to="/products"
-                className="block text-white hover:text-yellow-400 transition-colors py-2"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                PAGE
-              </Link>
-              <Link
-                to="/members"
-                className="block text-white hover:text-yellow-400 transition-colors py-2"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                ARTIST
-              </Link>
-              <Link
-                to="/exhibition"
-                className="block text-white hover:text-yellow-400 transition-colors py-2"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                FEATURES
-              </Link>
-              <Link
-                to="/products"
-                className="block text-white hover:text-yellow-400 transition-colors py-2"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                SHOP
-              </Link>
-              <Link
-                to="/members"
-                className="block text-white hover:text-yellow-400 transition-colors py-2"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                CONTACT
-              </Link>
-            </div>
-          </div>
-        )}
-      </nav>
-
-      <main className="flex items-center justify-center min-h-screen pt-0 p-8 mt-6 ">
-        <div className="relative max-w-[680px] w-full">
-          <div className="flex items-center justify-center">
-            <div className="w-full max-w-[580px]">
-              <PaintingFrame
-                imageSrc={currentPainting.src}
-                paintingInfo={currentPainting.info}
-                className="mx-auto"
-              />
-            </div>
-          </div>
-
-          {paintings.length > 1 && (
-            <>
-              <Button
-                variant="outline"
-                size="lg"
-                onClick={prevPainting}
-                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-16 bg-black/30 border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-black shadow-lg w-14 h-14"
-              >
-                <ChevronLeft className="w-8 h-8" />
-              </Button>
-
-              <Button
-                variant="outline"
-                size="lg"
-                onClick={nextPainting}
-                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-16 bg-black/30 border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-black shadow-lg w-14 h-14"
-              >
-                <ChevronRight className="w-8 h-8" />
-              </Button>
-            </>
-          )}
-          <div className="mt-6 flex items-center gap-4 justify-center">
-            <Button
-              size="sm"
-              variant="outline"
-              className="border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-black"
-              onClick={() => setShowStory(!showStory)}
-            >
-              <PanelsTopLeft className="w-4 h-4 mr-2" />{" "}
-              {showStory ? "Hide Story" : "Show Story"}
-            </Button>
-            {currentPainting.originalSrc && (
-              <Button
-                size="sm"
-                variant="outline"
-                className="border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-black"
-                onClick={() =>
-                  window.open(currentPainting.originalSrc, "_blank")
-                }
-              >
-                <Eye className="w-4 h-4 mr-2" /> View Original
-              </Button>
-            )}
-          </div>
-
-          {showStory && (
-            <Card className="mt-4 p-4 bg-black/30 backdrop-blur-sm border-gray-700 text-sm text-gray-300">
-              {currentPainting.info.description}
-            </Card>
-          )}
-
-          <div className="mt-6 flex items-center justify-center gap-3 overflow-x-auto">
-            {paintings.map((p, idx) => (
-              <button
-                key={p.id}
-                className={`relative w-20 h-16 rounded-md overflow-hidden ring-2 ${
-                  idx === currentPaintingIndex
-                    ? "ring-yellow-500"
-                    : "ring-transparent"
-                }`}
-                onClick={() => setCurrentPaintingIndex(idx)}
-              >
-                <img
-                  src={p.src}
-                  alt={p.info.title}
-                  className="w-full h-full object-cover"
-                />
-              </button>
-            ))}
-          </div>
-        </div>
+        </div> 
       </main>
-
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black/5 to-transparent pointer-events-none" />
+      
+      {/* 3. THUMBNAIL BAR - Cố định ở dưới cùng */}
+      <div className="fixed bottom-0 left-0 right-0 z-20 flex-shrink-0 py-4 px-8 flex items-center justify-center gap-3 overflow-x-auto bg-black/70 backdrop-blur-sm border-t border-gray-700">
+        {paintings.map((p, idx) => (
+          <button
+            key={p.id}
+            className={`relative w-20 h-16 rounded-md overflow-hidden ring-2 transition-all duration-300 flex-shrink-0 ${idx === currentPaintingIndex
+                ? "ring-yellow-500 scale-105" 
+                : "ring-transparent opacity-70 hover:opacity-100"
+              }`}
+            onClick={() => {
+              changePainting(idx);
+            }}
+          >
+            <img
+              src={p.src}
+              alt={p.info.title}
+              className="w-full h-full object-cover"
+            />
+          </button>
+        ))}
+      </div>
     </div>
   );
 };

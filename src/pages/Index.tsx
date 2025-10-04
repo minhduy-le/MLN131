@@ -1,17 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import {
-  ChevronDown,
-  Search,
-  Menu,
-  X,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
+import { Header } from "@/components/Header";
 
 const Index = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [carouselPosition, setCarouselPosition] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [visibleElements, setVisibleElements] = useState<Set<string>>(
@@ -128,104 +124,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      <nav
-        className="relative z-10 backdrop-blur-sm border-b border-gray-700"
-        style={{ backgroundColor: "#532218" }}
-      >
-        <div className="max-w-7xl mx-auto px-6 py-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <img
-                src="/assets/Logo_Trường_Đại_học_FPT.svg.png"
-                alt="Logo"
-                className="h-12 w-auto mr-4"
-              />
-              <h1
-                className="text-xl font-bold text-white font-montserrat"
-                style={{ color: "#532218" }}
-              >
-                Hội Sử Mùa Thu
-              </h1>
-            </div>
-            <div className="hidden md:flex items-center space-x-8">
-              <Link
-                to="/"
-                className="text-white hover:text-yellow-400 transition-colors flex items-center space-x-1 px-4 py-2 rounded-lg hover:bg-white/10 font-medium"
-              >
-                <span className="font-montserrat">Phòng Chính</span>
-              </Link>
-              <Link
-                to="/members"
-                className="text-white hover:text-yellow-400 transition-colors flex items-center space-x-1 px-4 py-2 rounded-lg hover:bg-white/10 font-medium"
-              >
-                <span className="font-montserrat">Thành viên</span>
-              </Link>
-              <Link
-                to="/products"
-                className="text-white hover:text-yellow-400 transition-colors flex items-center space-x-1 px-4 py-2 rounded-lg hover:bg-white/10 font-medium"
-              >
-                <span className="font-montserrat">Phòng trưng bày</span>
-              </Link>
-              <Link
-                to="/exhibition"
-                className="text-white hover:text-yellow-400 transition-colors flex items-center space-x-1 px-4 py-2 rounded-lg hover:bg-white/10 font-medium"
-              >
-                <span className="font-montserrat">Phòng Triển Lãm</span>
-              </Link>
-            </div>
-            <div className="w-32"></div>
-          </div>
-
-          {isMobileMenuOpen && (
-            <div className="md:hidden bg-black/90 backdrop-blur-sm border-t border-gray-700">
-              <div className="px-6 py-4 space-y-4">
-                <Link
-                  to="/"
-                  className="block text-white hover:text-yellow-400 transition-colors py-2"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  HOME
-                </Link>
-                <Link
-                  to="/products"
-                  className="block text-white hover:text-yellow-400 transition-colors py-2"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  PAGE
-                </Link>
-                <Link
-                  to="/members"
-                  className="block text-white hover:text-yellow-400 transition-colors py-2"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  ARTIST
-                </Link>
-                <Link
-                  to="/exhibition"
-                  className="block text-white hover:text-yellow-400 transition-colors py-2"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  FEATURES
-                </Link>
-                <Link
-                  to="/products"
-                  className="block text-white hover:text-yellow-400 transition-colors py-2"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  SHOP
-                </Link>
-                <Link
-                  to="/members"
-                  className="block text-white hover:text-yellow-400 transition-colors py-2"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  CONTACT
-                </Link>
-              </div>
-            </div>
-          )}
-        </div>
-      </nav>
+      <Header />
 
       <div
         className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-80px)] px-6"
@@ -441,12 +340,14 @@ const Index = () => {
           <button
             onClick={goToPrevious}
             className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white/20 hover:bg-white/40 rounded-full p-3 transition-colors duration-300 z-10"
+            aria-label="Xem tranh trước"
           >
             <ChevronLeft className="w-6 h-6 text-white" />
           </button>
           <button
             onClick={goToNext}
             className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 bg-white/20 hover:bg-white/40 rounded-full p-3 transition-colors duration-300 z-1000"
+            aria-label="Xem tranh tiếp theo"
           >
             <ChevronRight className="w-6 h-6 text-white" />
           </button>
